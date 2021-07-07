@@ -1,9 +1,9 @@
 import {Absence} from "./model";
 
-export function getAbsenceStatus(absence: Absence):string {
-  if(absence.confirmedAt?.toString() !== undefined || ''){
+export function getAbsenceStatus(absence: Absence | undefined):string {
+  if(absence?.confirmedAt?.toString() !== undefined || ''){
     return 'Confirmed';
-  }else if(absence.rejectedAt?.toString() !== undefined || ''){
+  }else if(absence?.rejectedAt?.toString() !== undefined || ''){
     return 'Rejected';
   }
   return 'Requested';
@@ -17,7 +17,10 @@ export function getTime(date: string): number{
   return getDate(date).getTime();
 }
 
-export function getDateString(date: string): string {
-  const newDate = getDate(date);
-  return `${newDate.getFullYear()}-${newDate.getMonth()}-${newDate.getDate()}`;
+export function getDateString(date: string | undefined): string {
+  if(date) {
+    const newDate = getDate(date);
+    return `${newDate.getFullYear()}-${newDate.getMonth()}-${newDate.getDate()}`;
+  }
+  return '';
 }

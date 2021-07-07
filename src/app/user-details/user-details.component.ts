@@ -21,8 +21,11 @@ export class UserDetailsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getDuration() {
-    return (getTime(this.data.absence.endDate) - getTime(this.data.absence.startDate))/ (1000 * 3600 * 24) + 1;
+  getDuration(): string {
+    if(this.data.absence) {
+      return `${((getTime(this.data.absence.endDate) - getTime(this.data.absence.startDate)) / (1000 * 3600 * 24) + 1)}`;
+    }
+    return '';
   }
 
 }

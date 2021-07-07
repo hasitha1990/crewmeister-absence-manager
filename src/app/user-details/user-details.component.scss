@@ -1,18 +1,23 @@
 @import "../../styles";
 
+$padding-horizontal: 0 35px;
+
+
 .user-details-profile-header{
   display: flex;
-  padding: $container-padding-lg;
+  padding: $padding-horizontal;
   >div{
-    padding: $container-padding-md;
+    padding: $container-padding-lg 0;
   }
 }
 
-.padding-horizontal{
-  padding: 0 35px;
+.user-details-title{
+  color: $dark-accent-text;
+  padding: $padding-horizontal;
 }
 
 .user-details-profile-name{
+  padding: $container-padding-lg !important;
 }
 
 .user-details-grid-container{
@@ -22,4 +27,11 @@
   row-gap: 15px;
   padding: 25px 0;
   margin: 0 35px;
+}
+
+.user-details-grid-container{
+  >div:nth-child(2n-1) {
+    color: $dark-primary-text;
+    font-weight: bold;
+  }
 }
