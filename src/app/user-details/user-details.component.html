@@ -1,0 +1,33 @@
+<div class="user-details-profile-header display-1">
+  <div><ngx-avatar src="{{data.member.image}}" name="{{data.member.name}}" size="90"></ngx-avatar></div>
+  <div class="user-details-profile-name"><h2>{{data.member.name}}</h2></div>
+</div>
+<mat-divider></mat-divider>
+<div class="padding-horizontal"><h3>Absence Summary</h3></div>
+<mat-divider></mat-divider>
+<div class="user-details-grid-container">
+  <div>Name:</div>
+  <div>{{data.member.name}}</div>
+  <div>Status:</div>
+  <div>
+    {{getAbsenceStatus(data.absence)}}
+  </div>
+  <div>Type:</div>
+  <div>{{data.absence.type | titlecase}}</div>
+  <div>Created on:</div>
+  <div>{{getDateString(data.absence.createdAt)}}</div>
+  <div>From:</div>
+  <div>{{data.absence.startDate}}</div>
+  <div>To:</div>
+  <div>{{data.absence.endDate}}</div>
+  <div>Duration:</div>
+  <div>{{getDuration()}}</div>
+  <ng-container *ngIf="data.absence.memberNote !== '' || undefined">
+    <div>Notes:</div>
+    <div>{{data.absence.memberNote}}</div>
+  </ng-container>
+  <ng-container *ngIf="data.absence.admitterNote !== '' || undefined">
+    <div>Admitter notes:</div>
+    <div>{{data.absence.admitterNote}}</div>
+  </ng-container>
+</div>

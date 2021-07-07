@@ -25,12 +25,14 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatButtonModule } from "@angular/material/button";
 import { NgDialogAnimationService } from "ng-dialog-animation";
+import { UserDetailsComponent } from './user-details/user-details.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AbsenceManagerComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,8 @@ import { MembersService } from "../shared/services/members.service";
 import { map} from "rxjs/operators";
 import { getAbsenceStatus, getDate } from "../shared/util";
 import { getDateString } from "../shared/util";
+import { UserDetailsComponent } from "../user-details/user-details.component";
+import { NgDialogAnimationService } from "ng-dialog-animation";
 
 
 @Component({
@@ -56,7 +58,10 @@ export class AbsenceManagerComponent implements OnInit, AfterViewInit, OnDestroy
   getAbsenceStatus = getAbsenceStatus;
   getDateString = getDateString;
 
-  constructor(private absenceService: AbsenceService, private memberService: MembersService) {
+  constructor(
+    private absenceService: AbsenceService,
+    private memberService: MembersService,
+    public dialog: NgDialogAnimationService) {
     this.$absenceObservable = this.absenceService.getAllAbsences();
   }
 
@@ -167,6 +172,15 @@ export class AbsenceManagerComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   showMemberDetails(row: Absence) {
-
+    const member = this.getMemberFromList(row.userId);
+    const dialogRef = this.dialog.open(UserDetailsComponent, {
+      panelClass: 'cm-dialog',
+      data: {
+        member:member,
+        absence: row
+      },
+      animation:{to:"aside"},
+      position: { rowEnd: "0" }
+    });
   }
 }
