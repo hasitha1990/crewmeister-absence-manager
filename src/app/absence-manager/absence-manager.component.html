@@ -1,2 +1,109 @@
 <app-header></app-header>
-<p>absence-manager works!</p>
+<div class = "cm-base-container" >
+  <form novalidate
+        [formGroup]="filterForm">
+    <div class="filter-trigger-container"
+         [ngClass]="filterOpen ? 'filter-open' : ''">
+      <div (click)="toggleFilterPanel()" class="width-100 padding-md" >
+        <mat-icon >filter_list</mat-icon>
+        <span class="mat-subheading-2">Filter</span>
+      </div>
+      <div>
+        <button class="filter-trigger-clear padding-sm" mat-raised-button color="primary" (click)="clearFilter()">
+          Clear
+        </button>
+      </div>
+    </div>
+    <mat-expansion-panel [expanded]="filterOpen" class="cm-expansion-panel" >
+      <div class="filter-formfield-container" >
+        <div class="filter-formfield">
+          <mat-form-field appearance="outline" class="width-100">
+            <mat-label>Absence Type</mat-label>
+            <input matInput (keyup)="setFilterType($event)" formControlName="absenceType">
+            <mat-icon matSuffix>format_list_bulleted</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="filter-formfield">
+          <mat-form-field appearance="outline" class="cm-daterange-formfield width-100" (click)="picker.open()">
+            <mat-date-range-input formGroupName="absenceDateRange" [rangePicker]="picker"
+                                  (durationchange)="setFilterDate(dateRangeStart,dateRangeEnd)" >
+              <input readonly matStartDate formControlName="start" placeholder="From" #dateRangeStart>
+              <input readonly matEndDate formControlName="end" placeholder="To"
+                     #dateRangeEnd (dateChange)="setFilterDate(dateRangeStart,
+              dateRangeEnd)">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </form>
+  <div class="mat-elevation-z8 cm-table-container" >
+    <div style="overflow: scroll" >
+      <mat-table  [dataSource]="dataSource" class="cm-table" >
+
+        <!-- User Id Column -->
+        <ng-container matColumnDef="userId">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> User Id </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let element"> {{getUserName(element.userId)}}  </mat-cell>
+        </ng-container>
+
+        <!-- Absence Type Column -->
+        <ng-container matColumnDef="type">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Absence Type </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+        </ng-container>
+
+        <!-- Start date Column -->
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> Start Date </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let element"> {{element.startDate}} </mat-cell>
+        </ng-container>
+
+        <!-- End date Column -->
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let element"> {{element.endDate}} </mat-cell>
+        </ng-container>
+
+        <!-- Member Notes Column -->
+        <ng-container matColumnDef="memberNote">
+          <mat-header-cell class="absenceMemberNotes" mat-header-cell *matHeaderCellDef> Member Notes </mat-header-cell>
+          <mat-cell class="absenceMemberNotes" mat-cell *matCellDef="let element"> {{element.memberNote}} </mat-cell>
+        </ng-container>
+
+        <!-- Absence Status Column -->
+        <ng-container matColumnDef="status">
+          <mat-header-cell class="absenceStatus" mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+          <mat-cell class="absenceStatus" mat-cell *matCellDef="let element" [ngSwitch]="getAbsenceStatus(element)">
+            {{getAbsenceStatus(element)}}
+            <!--          <mat-icon *ngSwitchCase="'accepted'">thumb_up</mat-icon>-->
+            <!--          <mat-icon *ngSwitchCase="'rejected'">thumb_down</mat-icon>-->
+            <!--          <mat-icon *ngSwitchDefault>thumbs_up_down</mat-icon>-->
+          </mat-cell>
+        </ng-container>
+
+        <!-- Admitter Note Column -->
+        <ng-container matColumnDef="admitterNote">
+          <mat-header-cell class="absenceAdmitterNotes" mat-header-cell *matHeaderCellDef> Admitter Notes </mat-header-cell>
+          <mat-cell class="absenceAdmitterNotes" mat-cell *matCellDef="let element"> {{element.admitterNote}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row class="cm-table-row" mat-row matRipple *matRowDef="let row; columns: displayedColumns;"
+                 (click)="showMemberDetails(row)"></mat-row>
+      </mat-table>
+    </div>
+    <mat-paginator [length]="pageEvent.length"
+                   [pageSize]="pageEvent.pageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="pageEvent = $event" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

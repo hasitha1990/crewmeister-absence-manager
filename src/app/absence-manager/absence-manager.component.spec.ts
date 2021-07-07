@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AbsenceManagerComponent } from './absence-manager.component';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 describe('AbsenceManagerComponent', () => {
   let component: AbsenceManagerComponent;
@@ -8,7 +9,8 @@ describe('AbsenceManagerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AbsenceManagerComponent ]
+      declarations: [ AbsenceManagerComponent ],
+      imports: [ HttpClientTestingModule ]
     })
     .compileComponents();
   });

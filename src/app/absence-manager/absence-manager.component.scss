@@ -1,0 +1,44 @@
+@import "../../styles";
+
+.filter-trigger-container{
+  @include stroked-container;
+  cursor: pointer;
+}
+
+.filter-trigger-clear {
+  opacity: 0;
+}
+
+.filter-open{
+  background: $dark-bg-lighter-80;
+  .filter-trigger-clear{
+    @include ease-in;
+  }
+}
+
+.filter-formfield-container{
+  @include width-100;
+  @include flex-around-center;
+  flex-wrap: wrap;
+}
+
+.filter-formfield{
+  min-width: 10rem;
+  flex-grow: 1;
+  padding: 0 $container-padding-sm;
+}
+@include media-breakpoint-up(sm) {
+}
+@include media-breakpoint-up(md) {
+}
+@include media-breakpoint-up(lg) {
+}
+@include media-breakpoint-up(xl) {
+}
+@include media-breakpoint-up(xxl) {
+}
+
+.cm-table-row:hover{
+  background-color: $dark-bg-lighter-80;
+  cursor: pointer;
+}

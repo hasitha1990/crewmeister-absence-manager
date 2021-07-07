@@ -5022,6 +5022,11 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+ng-dialog-animation@^9.0.4:
+  version "9.0.4"
+  resolved "https://registry.yarnpkg.com/ng-dialog-animation/-/ng-dialog-animation-9.0.4.tgz#2fac63cc9eefed06caa08e5c22653e06e71da51a"
+  integrity sha512-v6HAMmbHJd/xzlrMTypm1tygnYdfQQU2G8vYUfBG70yfrTg6+Ui65xyZAJMcp6Ul7LwLfE9XPK3YBuQJPPSkHA==
+
 ngx-avatar@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/ngx-avatar/-/ngx-avatar-4.1.0.tgz#f3f4b47b7490cdb83d1bfffd535c199c15559307"
