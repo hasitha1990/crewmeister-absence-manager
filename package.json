@@ -1,23 +1,32 @@
 {
-  "name": "c",
-  "version": "0.0.0",
+  "name": "absence-manager",
+  "version": "1.0.0",
+  "author": "Hasitha Rajapakse",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "prestart": "yarn install",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~12.0.2",
+    "@angular/cdk": "^12.1.1",
     "@angular/common": "~12.0.2",
     "@angular/compiler": "~12.0.2",
     "@angular/core": "~12.0.2",
     "@angular/forms": "~12.0.2",
+    "@angular/material": "^12.1.1",
     "@angular/platform-browser": "~12.0.2",
     "@angular/platform-browser-dynamic": "~12.0.2",
     "@angular/router": "~12.0.2",
+    "@popperjs/core": "^2.9.2",
+    "bootstrap": "^5.0.2",
+    "ngx-avatar": "^4.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
