@@ -43,8 +43,6 @@ export class AbsenceManagerComponent implements OnInit, AfterViewInit, OnDestroy
 
   memberList: Member[] = [];
 
-  dataloaded = false;
-  dataerror = false;
   dataStatus = 'loading';
   getDateString = getDateString;
   getMemberFromList = getMemberFromList;
@@ -108,11 +106,9 @@ export class AbsenceManagerComponent implements OnInit, AfterViewInit, OnDestroy
     if(this.dataStatus !== 'error') {
       if(this.dataSource.data.length > 0){
         this.dataStatus = 'loaded';
-        this.dataloaded = true;
       }else{
         this.dataStatus = 'empty'
       }
-      // this.dataStatus = 'loaded'
     }
   }
 
