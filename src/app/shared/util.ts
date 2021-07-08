@@ -1,4 +1,4 @@
-import {Absence} from "./model";
+import { Absence, Member } from "./model";
 
 export function getAbsenceStatus(absence: Absence | undefined):string {
   if(absence?.confirmedAt?.toString() !== undefined || ''){
@@ -20,7 +20,11 @@ export function getTime(date: string): number{
 export function getDateString(date: string | undefined): string {
   if(date) {
     const newDate = getDate(date);
-    return `${newDate.getFullYear()}-${newDate.getMonth()}-${newDate.getDate()}`;
+    return `${newDate.toISOString().slice(0,10)}`;
   }
   return '';
+}
+
+export function getMemberFromList(userId: number, memberList: Member[]): Member | undefined{
+  return memberList.find((member) => member.userId === userId)
 }

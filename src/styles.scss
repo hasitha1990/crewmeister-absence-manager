@@ -238,6 +238,10 @@ $container-padding-xl:50px;
   align-items: center;
 }
 
+.flex-around-center{
+  @include flex-around-center;
+}
+
 @mixin ease-in{
   animation: fadeIn 0.5s;
   opacity: 1;

@@ -7,10 +7,9 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, Subscription } from "rxjs";
 import { MembersService } from "../shared/services/members.service";
 import { map} from "rxjs/operators";
-import { getAbsenceStatus, getDate } from "../shared/util";
-import { getDateString } from "../shared/util";
-import { UserDetailsComponent } from "../user-details/user-details.component";
+import { getDateString, getMemberFromList, getAbsenceStatus, getDate } from "../shared/util";
 import { NgDialogAnimationService } from "ng-dialog-animation";
+import { UserDetailsComponent } from "../user-details/user-details.component";
 
 
 @Component({
@@ -27,19 +26,10 @@ export class AbsenceManagerComponent implements OnInit, AfterViewInit, OnDestroy
   // @ts-ignore
   memberSubscription: Subscription;
 
-  displayedColumns: string[] = ['userId', 'name', 'type', 'startDate', 'endDate', 'memberNote', 'status', 'admitterNote'];
   dataSource: MatTableDataSource<Absence> = new MatTableDataSource(<Absence[]>[]);
 
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  // MatPaginator Inputs
-  length = 10;
-  pageSize = 10;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
-
-  // MatPaginator Output
-  pageEvent = new PageEvent();
 
   filterOpen = false;
   filterObject = <filterObject>{}
@@ -54,9 +44,21 @@ export class AbsenceManagerComponent implements OnInit, AfterViewInit, OnDestroy
   memberList: Member[] = [];
 
   dataloaded = false;
-
-  getAbsenceStatus = getAbsenceStatus;
+  dataerror = false;
+  dataStatus = 'loading';
   getDateString = getDateString;
+  getMemberFromList = getMemberFromList;
+  getAbsenceStatus = getAbsenceStatus;
+
+  // MatPaginator Inputs
+  length = 10;
+  pageSize = 10;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+
+  // MatPaginator Output
+  pageEvent = new PageEvent();
+
+  displayedColumns: string[] = ['userId', 'name', 'type', 'startDate', 'endDate', 'memberNote', 'status', 'admitterNote'];
 
   constructor(
     private absenceService: AbsenceService,
@@ -75,11 +77,6 @@ export class AbsenceManagerComponent implements OnInit, AfterViewInit, OnDestroy
     this.dataSource.paginator = this.paginator;
   }
 
-  setPagination(){
-    this.pageEvent.length = this.length;
-    this.pageEvent.pageSize = this.pageSize;
-  }
-
   loadAllAbsences(): void{
     this.absenceSubscription = this.$absenceObservable.pipe(
       map(absence => {
@@ -92,25 +89,31 @@ export class AbsenceManagerComponent implements OnInit, AfterViewInit, OnDestroy
       this.dataSource.data.map((value: Absence, index: number) => {
         this.loadMember(value.userId, index);
       });
-    });
+    }, (error => {
+      this.dataStatus = 'error';
+    }));
   }
 
   loadMember(userId: number, index: number){
-    let absenceMember = this.getMemberFromList(userId);
+    let absenceMember = this.getMemberFromList(userId, this.memberList);
 
     if(!absenceMember) {
 
       this.memberSubscription = this.memberService.getMember(userId).subscribe(member => {
         this.memberList.push(member);
       }, error => {
-
+        this.dataStatus = 'error';
       })
     }
-    this.dataloaded = true;
-  }
-
-  getMemberFromList(userId: number): Member | undefined{
-    return this.memberList.find((member) => member.userId === userId)
+    if(this.dataStatus !== 'error') {
+      if(this.dataSource.data.length > 0){
+        this.dataStatus = 'loaded';
+        this.dataloaded = true;
+      }else{
+        this.dataStatus = 'empty'
+      }
+      // this.dataStatus = 'loaded'
+    }
   }
 
   setFilterPredicate(): void{
@@ -162,17 +165,22 @@ export class AbsenceManagerComponent implements OnInit, AfterViewInit, OnDestroy
     this.filterForm.reset();
   }
 
-  getUserName(userId: number):string {
-    return <string>this.memberList.find(val => val.userId === userId)?.name;
-  }
-
   ngOnDestroy(){
     this.absenceSubscription.unsubscribe();
     this.memberSubscription.unsubscribe();
   }
 
+  setPagination():void{
+    this.pageEvent.length = this.length;
+    this.pageEvent.pageSize = this.pageSize;
+  }
+
+  getUserName(userId: number):string {
+    return <string>this.memberList.find(val => val.userId === userId)?.name;
+  }
+
   showMemberDetails(row: Absence) {
-    const member = this.getMemberFromList(row.userId);
+    const member = this.getMemberFromList(row.userId, this.memberList);
     const dialogRef = this.dialog.open(UserDetailsComponent, {
       panelClass: 'cm-dialog',
       data: {

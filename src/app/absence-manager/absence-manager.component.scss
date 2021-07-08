@@ -43,3 +43,19 @@
   background-color: $dark-bg-lighter-80;
   cursor: pointer;
 }
+
+.error-container{
+  @include flex-around-center;
+  position: absolute;
+  width: 100%;
+  left:0;
+  top: calc(100vh*0.35);
+  color: $dark-disabled-text;
+  mat-icon{
+    $size: 180px;
+    font-size: $size;
+    height: $size;
+    width: $size;
+    padding-bottom: $size*0.5;
+  }
+}

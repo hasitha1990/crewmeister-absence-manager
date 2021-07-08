@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { AppComponent } from "../../app.component";
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -23,5 +24,9 @@ describe('HeaderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it(`should have as title 'Absence Manager'`, () => {
+    expect(component.title).toEqual('Absence Manager');
   });
 });
